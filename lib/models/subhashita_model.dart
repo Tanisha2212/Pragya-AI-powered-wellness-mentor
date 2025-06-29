@@ -1,105 +1,147 @@
 class Subhashita {
-  final String id;
+  final int id;
   final String sanskrit;
-  final String transliteration;
-  final String translation;
+  final String marathi;
+  final String english;
   final String meaning;
   final String category;
-  final bool isFavorite;
+  final String deity;
+  final List<String> keywords;
+  final List<String> moodRelevance;
 
   Subhashita({
     required this.id,
     required this.sanskrit,
-    required this.transliteration,
-    required this.translation,
+    required this.marathi,
+    required this.english,
     required this.meaning,
     required this.category,
-    this.isFavorite = false,
+    required this.deity,
+    required this.keywords,
+    required this.moodRelevance,
+    // Removed the extra parameters that don't have corresponding fields
   });
 
+  // Your factory method and other methods also need to be updated
+  factory Subhashita.fromJson(Map<String, dynamic> json) {
+    return Subhashita(
+      id: json['id'] ?? 0,
+      sanskrit: json['sanskrit'] ?? '',
+      marathi: json['marathi'] ?? '',
+      english: json['english'] ?? '',
+      meaning: json['meaning'] ?? '',
+      category: json['category'] ?? 'general',
+      deity: json['deity'] ?? 'Universal',
+      keywords: List<String>.from(json['keywords'] ?? []),
+      moodRelevance: List<String>.from(json['mood_relevance'] ?? []),
+      // Removed the extra parameters here too
+    );
+  }
+
+  // Update copyWith method as well
   Subhashita copyWith({
-    String? id,
+    int? id,
     String? sanskrit,
-    String? transliteration,
-    String? translation,
+    String? marathi,
+    String? english,
     String? meaning,
     String? category,
-    bool? isFavorite,
+    String? deity,
+    List<String>? keywords,
+    List<String>? moodRelevance,
   }) {
     return Subhashita(
       id: id ?? this.id,
       sanskrit: sanskrit ?? this.sanskrit,
-      transliteration: transliteration ?? this.transliteration,
-      translation: translation ?? this.translation,
+      marathi: marathi ?? this.marathi,
+      english: english ?? this.english,
       meaning: meaning ?? this.meaning,
       category: category ?? this.category,
-      isFavorite: isFavorite ?? this.isFavorite,
+      deity: deity ?? this.deity,
+      keywords: keywords ?? this.keywords,
+      moodRelevance: moodRelevance ?? this.moodRelevance,
+      // No extra parameters needed here
     );
   }
-}
 
-class SubhashitaRepository {
-  static List<Subhashita> getDummyData() {
-    return [
-      Subhashita(
-        id: '1',
-        sanskrit: 'विद्या ददाति विनयं विनयाद्याति पात्रताम्।\nपात्रत्वाद्धनमाप्नोति धनाद्धर्मं ततः सुखम्॥',
-        transliteration: 'Vidya dadati vinayam vinayad yati patratam.\nPatratvad dhanam apnoti dhanad dharmam tatah sukham.',
-        translation: 'Knowledge gives humility, from humility comes worthiness, from worthiness one gets wealth, from wealth comes righteousness, and from righteousness comes happiness.',
-        meaning: 'This verse describes the progressive journey of personal development through knowledge.',
-        category: 'Education',
-      ),
-      Subhashita(
-        id: '2',
-        sanskrit: 'सत्यं ब्रूयात् प्रियं ब्रूयात् न ब्रूयात् सत्यमप्रियम्।\nप्रियं च नानृतं ब्रूयात् एष धर्मः सनातनः॥',
-        transliteration: 'Satyam bruyat priyam bruyat na bruyat satyam apriyam.\nPriyam cha nanritam bruyat esha dharmah sanatanah.',
-        translation: 'Speak the truth, speak pleasantly, do not speak unpleasant truths. Do not speak pleasant lies. This is eternal dharma.',
-        meaning: 'This teaches the art of righteous communication - balancing truth with kindness.',
-        category: 'Ethics',
-      ),
-      Subhashita(
-        id: '3',
-        sanskrit: 'काल: पच्यति सर्वाणि भूतानि सह तेजसा।\nकाले तु सुप्रयुक्ते च तत्काल: स्यात् सुखावहः॥',
-        transliteration: 'Kalah pachyati sarvani bhutani saha tejasa.\nKale tu suprayukte cha tatkalah syat sukhavahah.',
-        translation: 'Time ripens all beings with its power. When time is used properly, that time brings happiness.',
-        meaning: 'This emphasizes the importance of using time wisely for personal growth and happiness.',
-        category: 'Life Wisdom',
-      ),
-      Subhashita(
-        id: '4',
-        sanskrit: 'अहिंसा परमो धर्मः धर्म हिंसा तथैव च।',
-        transliteration: 'Ahimsa paramo dharmah dharma himsa tathaiva cha.',
-        translation: 'Non-violence is the highest dharma, so too is violence in service of dharma.',
-        meaning: 'This explores the complex nature of righteousness and when action is necessary.',
-        category: 'Ethics',
-        isFavorite: true,
-      ),
-    ];
+  // Rest of your methods remain the same...
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'sanskrit': sanskrit,
+      'marathi': marathi,
+      'english': english,
+      'meaning': meaning,
+      'category': category,
+      'deity': deity,
+      'keywords': keywords,
+      'mood_relevance': moodRelevance,
+    };
   }
 
-  static List<String> getCategories() {
-    return [
-      'Education',
-      'Ethics', 
-      'Life Wisdom',
-      'Devotion', // Locked
-      'Leadership', // Locked
-      'Philosophy', // Locked
-    ];
+  @override
+  String toString() {
+    return 'Subhashita(id: $id, sanskrit: $sanskrit, english: $english, category: $category)';
   }
 
-  static List<String> getUnlockedCategories() {
-    return ['Education'];
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Subhashita && other.id == id;
   }
 
-  static Subhashita getTodaysSubhashita() {
-    final today = DateTime.now();
-    final allSubhashitas = getDummyData();
-    final index = today.day % allSubhashitas.length;
-    return allSubhashitas[index];
+  @override
+  int get hashCode => id.hashCode;
+
+  String get shortEnglish {
+    if (english.length <= 50) return english;
+    return '${english.substring(0, 47)}...';
   }
 
-  static List<Subhashita> getSubhashitasByCategory(String category) {
-    return getDummyData().where((s) => s.category == category).toList();
+  String get categoryCapitalized {
+    return category.split('_').map((word) => 
+        word[0].toUpperCase() + word.substring(1)).join(' ');
+  }
+
+  bool get hasMarathi => marathi.isNotEmpty;
+
+  bool matchesQuery(String query) {
+    final lowerQuery = query.toLowerCase();
+    return sanskrit.toLowerCase().contains(lowerQuery) ||
+           english.toLowerCase().contains(lowerQuery) ||
+           marathi.toLowerCase().contains(lowerQuery) ||
+           meaning.toLowerCase().contains(lowerQuery) ||
+           category.toLowerCase().contains(lowerQuery) ||
+           deity.toLowerCase().contains(lowerQuery) ||
+           keywords.any((keyword) => keyword.toLowerCase().contains(lowerQuery));
+  }
+
+  bool isRelevantForMood(String mood) {
+    return moodRelevance.contains(mood.toLowerCase()) ||
+           keywords.any((keyword) => _getMoodKeywords(mood).contains(keyword));
+  }
+
+  static List<String> _getMoodKeywords(String mood) {
+    switch (mood.toLowerCase()) {
+      case 'stressed':
+      case 'anxious':
+        return ['peace', 'calm', 'patience', 'strength'];
+      case 'sad':
+      case 'depressed':
+        return ['hope', 'courage', 'joy', 'strength'];
+      case 'angry':
+        return ['patience', 'forgiveness', 'peace', 'wisdom'];
+      case 'happy':
+      case 'joyful':
+        return ['gratitude', 'celebration', 'success', 'joy'];
+      case 'confused':
+        return ['wisdom', 'clarity', 'knowledge', 'guidance'];
+      case 'motivated':
+        return ['success', 'determination', 'achievement', 'effort'];
+      case 'peaceful':
+        return ['meditation', 'spirituality', 'inner_peace', 'divine'];
+      default:
+        return ['wisdom', 'life', 'knowledge'];
+    }
   }
 }

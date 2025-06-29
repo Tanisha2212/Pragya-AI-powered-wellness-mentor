@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:sanskrit_daily_subhasita/models/subhashita_model.dart';
 import 'main_navigation.dart';
 
-
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
@@ -19,12 +18,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late Animation<Offset> _slideAnimation;
 
   final Subhashita welcomeSubhashita = Subhashita(
-    id: '1',
+    id: 1,
     sanskrit: 'विद्या ददाति विनयं विनयाद्याति पात्रताम्।\nपात्रत्वाद्धनमाप्नोति धनाद्धर्मं ततः सुखम्॥',
-    transliteration: 'Vidya dadati vinayam vinayad yati patratam.\nPatratvad dhanam apnoti dhanad dharmam tatah sukham.',
-    translation: 'Knowledge gives humility, from humility comes worthiness, from worthiness one gets wealth, from wealth comes righteousness, and from righteousness comes happiness.',
+    marathi: 'विद्या नम्रता देते, नम्रतेतून योग्यता येते।\nयोग्यतेतून धन मिळते, धनातून धर्म, त्यातून सुख येते।',
+    english: 'Knowledge gives humility, from humility comes worthiness, from worthiness one gets wealth, from wealth comes righteousness, and from righteousness comes happiness.',
     meaning: 'This verse beautifully describes the progressive journey of personal development, showing how knowledge is the foundation that leads to ultimate happiness through character building.',
     category: 'Education',
+    deity: 'Saraswati',
+    keywords: ['knowledge', 'humility', 'education', 'wisdom', 'development'],
+    moodRelevance: ['motivated', 'thoughtful', 'inspired'],
   );
 
   @override
@@ -275,9 +277,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
           ),
           const SizedBox(height: 20),
-          // Translation
+          // Translation - using 'english' instead of 'translation'
           Text(
-            subhashita.translation,
+            subhashita.english,
             style: const TextStyle(
               fontSize: 16,
               color: Color(0xFF4A4A4A),
